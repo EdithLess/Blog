@@ -25,7 +25,7 @@ client.connect();
 
 function getCategories() {
   return new Promise((resolve, reject) => {
-    client.query(`SELECT * FROM categories`, (err, res) => {
+    client.query(`SELECT * FROM Products`, (err, res) => {
       if (!err) {
         const result = res.rows;
         resolve(result);
