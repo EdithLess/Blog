@@ -1,0 +1,51 @@
+import passport from "passport";
+import GoogleStrategy from "passport-google-oauth2";
+import { sql } from "@vercel/postgres";
+
+// Налаштування Google OAuth2 стратегії
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.clientID,
+      clientSecret: process.env.clientSecret,
+      callbackURL: "http://localhost:5000/google/callback",
+      passReqToCallback: true,
+    },
+    async function (_request, _accessToken, _refreshToken, profile, done) {
+      try {
+        const { rows } = await sql`
+          SELECT * FROM GoogleUser WHERE google_id = ${profile.id};
+        `;
+        let user = rows[0];
+
+        if (!user) {
+          const { rows: newUser } = await sql`
+            INSERT INTO GoogleUser (google_id, email, name, profile_picture)
+            VALUES (${profile.id}, ${profile.email}, ${profile.displayName}, ${profile.picture})
+            RETURNING *;
+          `;
+          user = newUser[0];
+        }
+
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.google_id); // Використовуємо google_id або інший унікальний ідентифікатор
+});
+
+passport.deserializeUser(async (googleId, done) => {
+  try {
+    const { rows } = await sql`
+      SELECT * FROM GoogleUser WHERE google_id = ${googleId};
+    `;
+    done(null, rows[0]);
+  } catch (err) {
+    done(err, null);
+  }
+});
