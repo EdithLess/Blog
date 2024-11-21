@@ -3,6 +3,11 @@ import GoogleStrategy from "passport-google-oauth2";
 import { sql } from "@vercel/postgres";
 
 // Налаштування Google OAuth2 стратегії
+if (!process.env.clientID || !process.env.clientSecret) {
+  throw new Error(
+    "Missing Google OAuth credentials (clientID or clientSecret)"
+  );
+}
 passport.use(
   new GoogleStrategy(
     {

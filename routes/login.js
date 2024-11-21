@@ -39,10 +39,16 @@ router.get(
 // Колбек після автентифікації Google
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    successRedirect: "/mainpage",
-    failureRedirect: "/login",
-  })
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    // Логіка для успішної автентифікації
+    if (req.user) {
+      console.log("User authenticated successfully:", req.user);
+      res.redirect("/mainpage"); // Редирект на головну сторінку
+    } else {
+      res.redirect("/login"); // У разі помилки автентифікації
+    }
+  }
 );
 
 // Захищений роут після входу
