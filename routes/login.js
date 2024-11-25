@@ -54,7 +54,12 @@ router.get(
 // Захищений роут після входу
 router.get("/mainpage", isLoggedIn, (req, res) => {
   res.send(
-    `<h1>Hello ${req.user.name || "User"}</h1><a href="/logout">Log out</a>`
+    `<h1>Hello ${req.user.name || "User"}</h1><a href="/logout">Log out</a>
+    <h2>Please choose your role</h2>
+    <ul>
+    <li> <button> <a href="/user">User</a></button></li>
+    <li> <button> <a href="/bloger">bloger</a></button></li>
+    </ul>`
   );
 });
 

@@ -11,8 +11,7 @@ router.get("/", (_req, res) => {
 </head>
 <body>
 <h1>Welcome to our blog<h1>
-    <button> <a href="/login">Login</a></button>
-    <button> <a href="/register">Register</a></button>
+    <button> <a href="/login">Login/register</a></button>
 </body>
 </html>`);
 });
