@@ -18,6 +18,26 @@ router.use(
   })
 );
 
+import pgSession from "connect-pg-simple";
+
+const PgStore = pgSession(session);
+
+router.use(
+  session({
+    store: new PgStore({
+      conString: process.env.DATABASE_URL, // або ваші дані для підключення
+    }),
+    secret: "your-session-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Увімкнути HTTPS у продакшені
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24, // 1 день
+    },
+  })
+);
+
 // Ініціалізація Passport і сесій
 router.use(passport.initialize());
 router.use(passport.session());
