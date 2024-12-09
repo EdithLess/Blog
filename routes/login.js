@@ -9,7 +9,7 @@ const router = Router();
 // Налаштування сесії
 router.use(
   session({
-    secret: "cats",
+    secret: "random words",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -53,14 +53,29 @@ router.get(
 
 // Захищений роут після входу
 router.get("/mainpage", isLoggedIn, (req, res) => {
-  res.send(
-    `<h1>Hello ${req.user.name || "User"}</h1><a href="/logout">Log out</a>
-    <h2>Please choose your role</h2>
-    <ul>
-    <li> <button> <a href="/user">User</a></button></li>
-    <li> <button> <a href="/bloger">bloger</a></button></li>
-    </ul>`
-  );
+  const role = req.user.role;
+
+  res.send(`
+    <h1>Hello ${req.user.name || "User"}</h1>
+    <a href="/logout">Log out</a>
+    ${
+      role === null
+        ? `<h2>Please choose your role</h2>
+           <ul>
+             <li><button><a href="/user">User</a></button></li>
+             <li><button><a href="/bloger">Blogger</a></button></li>
+           </ul>`
+        : `
+          <p>Your role is: ${role}</p>
+          ${
+            role === "bloger"
+              ? `<button><a href="/add_post">Add posts</a></button>
+              <button><a href="/manage_posts">Manage my posts</a></button>`
+              : `<button><a href="/view_post">View posts</a></button>`
+          }
+        `
+    }
+  `);
 });
 
 // Роут для виходу
