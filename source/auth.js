@@ -1,6 +1,10 @@
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth2";
 import { sql } from "@vercel/postgres";
+const callbackURL =
+  process.env.NODE_ENV === "production"
+    ? "blog-mqx5ad2xs-edithless-projects.vercel.app/google/callback"
+    : "http://localhost:5000/google/callback";
 
 // Налаштування Google OAuth2 стратегії
 if (!process.env.clientID || !process.env.clientSecret) {
@@ -13,7 +17,7 @@ passport.use(
     {
       clientID: process.env.clientID,
       clientSecret: process.env.clientSecret,
-      callbackURL: "http://localhost:5000/google/callback",
+      callbackURL: callbackURL,
       passReqToCallback: true,
     },
     async function (_request, _accessToken, _refreshToken, profile, done) {
