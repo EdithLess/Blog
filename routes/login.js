@@ -41,9 +41,6 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    // Логіка для успішної автентифікації
-    console.log("NODE_ENV:", process.env.NODE_ENV);
-    console.log("Callback URL:", callbackURL);
     if (req.user) {
       console.log("User authenticated successfully:", req.user);
       res.redirect("/mainpage"); // Редирект на головну сторінку
