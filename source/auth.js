@@ -3,8 +3,8 @@ import GoogleStrategy from "passport-google-oauth2";
 import { sql } from "@vercel/postgres";
 const callbackURL =
   process.env.NODE_ENV === "production"
-    ? "https://blog-git-main-edithless-projects.vercel.app/google/callback"
-    : "http://localhost:5000/google/callback";
+    ? "http://localhost:5000/google/callback"
+    : "https://blog-git-main-edithless-projects.vercel.app/google/callback";
 
 // Налаштування Google OAuth2 стратегії
 if (!process.env.clientID || !process.env.clientSecret) {
