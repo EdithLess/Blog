@@ -35,7 +35,26 @@ getDbClient();
 //   }
 // }
 
-// setupDatabase();
+// async function postDb() {
+//   try {
+//     await sql`
+// CREATE TABLE IF NOT EXISTS posts (
+//   id SERIAL PRIMARY KEY,
+//   google_id VARCHAR(50) NOT NULL,
+//   name VARCHAR(255) UNIQUE NOT NULL,
+//   content JSONB NOT NULL, -- Поле для збереження всіх елементів з порядком
+//   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+//   CONSTRAINT fk_google_user FOREIGN KEY (google_id) REFERENCES googleuser(google_id) ON DELETE CASCADE
+// );
+
+//     `;
+//     console.log("Posts table created successfully");
+//   } catch (err) {
+//     console.error("Error setting up the database", err.stack);
+//   }
+// }
+
+// postDb();
 
 async function writeRole(role, name) {
   try {

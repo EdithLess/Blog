@@ -55,7 +55,7 @@ router.get("/mainpage", isLoggedIn, (req, res) => {
   const role = req.user.role;
 
   res.send(`
-    <h1>Hello ${req.user.name || "User"}</h1>
+    <h1>Hello, ${req.user.name || "User"}</h1>
     <a href="/logout">Log out</a>
     ${
       role === null
@@ -84,8 +84,8 @@ router.get("/logout", (req, res) => {
       return next(err);
     }
     req.session.destroy(() => {
-      res.clearCookie("connect.sid"); // очищуємо кукі сесії
-      res.redirect("/login"); // перенаправлення на логін
+      res.clearCookie("connect.sid");
+      res.redirect("/login");
     });
   });
 });
