@@ -80,6 +80,29 @@ async function writeRole(role, name) {
   }
 }
 
-export default writeRole;
+async function selectPosts() {
+  try {
+    const result = await sql`SELECT * FROM "posts"`;
+    const posts = result.rows;
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function findPostName(name) {
+  try {
+    const result = await sql`
+    SELECT * FROM posts
+    WHERE name= ${name}`;
+    const found = result.rows;
+    return found;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const functions = { writeRole, selectPosts, findPostName };
+export default functions;
 
 // Використовуйте getDbClient() в запитах до бази

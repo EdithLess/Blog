@@ -1,6 +1,7 @@
 import { Router } from "express";
 import isLoggedIn from "../source/authCheck.js";
-import writeRole from "../db.js";
+import functions from "../db.js";
+const { writeRole } = functions;
 
 const router = Router();
 

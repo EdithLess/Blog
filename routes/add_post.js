@@ -9,8 +9,9 @@ router.get("/add_post", isLoggedIn, (_req, res) => {
   const html_code = `
     <h1>Create a Post</h1>
     <form id="postForm" action="/add_post" method="POST">
+     <h1>Name of your blog</h1>
+      <input type="text" name="post_name"></input>
       <div id="dynamicFields"></div>
-      
       <button type="button" onclick="addElement('image')">Image</button>
       <button type="button" onclick="addElement('header')">Header</button>
       <button type="button" onclick="addElement('text')">Text</button>
@@ -119,7 +120,7 @@ router.post("/add_post", isLoggedIn, async (req, res) => {
 
   try {
     const googleId = req.user.google_id;
-    const postName = `Post by ${req.user.name} - ${new Date().toISOString()}`;
+    const postName = req.body.post_name;
     const contentJson = JSON.stringify(content);
 
     const { rows } = await sql`
@@ -130,7 +131,6 @@ router.post("/add_post", isLoggedIn, async (req, res) => {
     res.send(
       `<h1>Post created successfully!</h1><pre>${JSON.stringify(rows[0])}</pre>`
     );
-    console.log("Content in database:", rows[0].content);
   } catch (err) {
     console.error("Error creating post:", err);
     res.status(500).send("Error creating post");
