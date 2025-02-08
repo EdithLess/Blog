@@ -40,10 +40,25 @@ router.get("/post/:name", async (req, res) => {
   try {
     let name = req.params.name;
     const post = await findPostName(name);
-    res.send(post);
+    let content = post.content;
+    if (typeof content === "string") {
+      try {
+        content = JSON.parse(content);
+      } catch (error) {
+        console.error("Error parsing content:", error);
+        return res.status(500).send("Invalid content format");
+      }
+    }
+
+    if (Array.isArray(content)) {
+      content.forEach((item) => {
+        console.log("Type:", item.type);
+        console.log("Value:", item.value);
+      });
+      res.send(content);
+    }
   } catch (error) {
     console.log(error);
-    res.status(500).send("Error fetching a post");
   }
 });
 

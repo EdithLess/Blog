@@ -10,6 +10,10 @@ router.get("/user", isLoggedIn, async (req, res) => {
     // Викликаємо writeRole, щоб оновити роль користувача
     const updatedUser = await writeRole("user", req.user.name);
 
+    if (!updatedUser) {
+      return res.status(404).send(`<h1>User not found</h1>`);
+    }
+
     res.send(
       `<h1>Hello ${req.user.name || "User"}</h1><p>Role updated to: ${
         updatedUser.role

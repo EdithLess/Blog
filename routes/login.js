@@ -62,7 +62,7 @@ router.get("/mainpage", isLoggedIn, (req, res) => {
         ? `<h2>Please choose your role</h2>
            <ul>
              <li><button><a href="/user">User</a></button></li>
-             <li><button><a href="/bloger">Blogger</a></button></li>
+             <li><button><a href="/bloger">Bloger</a></button></li>
            </ul>`
         : `
           <p>Your role is: ${role}</p>

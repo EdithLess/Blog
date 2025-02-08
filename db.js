@@ -58,7 +58,6 @@ getDbClient();
 
 async function writeRole(role, name) {
   try {
-    // Використовуємо параметризований запит для уникнення SQL-ін'єкцій
     const result = await sql`
       UPDATE googleuser
       SET role = ${role}
@@ -66,7 +65,6 @@ async function writeRole(role, name) {
       RETURNING *;
     `;
 
-    // Перевіряємо, чи було оновлено запис
     if (result.rowCount === 0) {
       console.log("No user found with the specified name.");
       return null;
@@ -95,7 +93,7 @@ async function findPostName(name) {
     const result = await sql`
     SELECT * FROM posts
     WHERE name= ${name}`;
-    const found = result.rows;
+    const found = result.rows[0];
     return found;
   } catch (error) {
     console.log(error);
